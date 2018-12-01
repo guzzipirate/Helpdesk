@@ -1,0 +1,9 @@
+name: Helpdesk
+version: 1.0
+main: io.github.guzzipirate.helpdesk.Main
+api-version: 1.13
+author: Guzzipirate
+commands:
+  helpdesk:
+    description: Get help from a staff member
+    usage: /<command> [report|request|register] [message]
