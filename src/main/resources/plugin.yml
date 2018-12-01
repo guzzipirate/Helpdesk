@@ -1,9 +1,9 @@
 name: Helpdesk
 version: 1.0
-main: io.github.guzzipirate.helpdesk.Main
+main: com.guzzipirate.helpdesk.Helpdesk
 api-version: 1.13
 author: Guzzipirate
 commands:
-  helpdesk:
+  support:
     description: Get help from a staff member
     usage: /<command> [report|request|register] [message]

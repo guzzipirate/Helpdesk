@@ -1,4 +1,4 @@
-package io.github.guzzipirate.helpdesk;
+package com.guzzipirate.helpdesk;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CommandHelpdesk implements CommandExecutor {
+public class CommandSupport implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 1) {
@@ -21,7 +21,7 @@ public class CommandHelpdesk implements CommandExecutor {
             return true;
         }
         else if (args[0].equals("report") && args.length < 3) {
-            sender.sendMessage("A report has to follow this format: /helpdesk report <type> <description>");
+            sender.sendMessage("A report has to follow this format: /support report <type> <description>");
             return true;
         }
 
