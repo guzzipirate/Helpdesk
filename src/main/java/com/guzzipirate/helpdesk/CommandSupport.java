@@ -53,7 +53,7 @@ public class CommandSupport implements CommandExecutor, TabCompleter {
             return false;
         }
         else if (args[0].equals("request") && args.length < 2) {
-            sender.sendMessage("Please add an description to your request!");
+            sender.sendMessage("Please add a description to your request!");
             return true;
         }
         else if (args[0].equals("report") && args.length < 3) {
