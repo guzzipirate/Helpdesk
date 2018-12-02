@@ -4,13 +4,49 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class CommandSupport implements CommandExecutor {
+public class CommandSupport implements CommandExecutor, TabCompleter {
+
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        List<String> arguments = new ArrayList<String>(Arrays.asList(args));
+
+        List<String> cats = new ArrayList<String>();
+        cats.add("report");
+        cats.add("request");
+        cats.add("register");
+
+        // Still have to type out the main category
+        if (arguments.size() <= 1) {
+            // Nothing typed yet
+            if (arguments.size() == 0 || arguments.get(0).equals("")) {
+                return cats; //.stream().collect(Collectors.toList());
+            }
+
+            // Started to type
+            return cats.stream().filter(s -> s.startsWith(arguments.get(0).toLowerCase())).collect(Collectors.toList());
+        } // Report has sub categories
+        else if (arguments.size() == 2 && arguments.get(0).equals("report")) {
+            cats = new ArrayList<String>();
+            cats.add("grief");
+            cats.add("fire");
+            cats.add("explosion");
+
+            // Nothing typed yet
+            if (arguments.get(1).equals("")) {
+                return cats;
+            }
+
+            // Started to type
+            return cats.stream().filter(s -> s.startsWith(arguments.get(1).toLowerCase())).collect(Collectors.toList());
+        }
+
+        return new ArrayList<String>();
+    }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 1) {
