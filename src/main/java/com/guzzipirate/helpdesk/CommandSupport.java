@@ -11,6 +11,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandSupport implements CommandExecutor, TabCompleter {
+    private ITicketHandler ticketHandler;
+
+    public CommandSupport(ITicketHandler ticketHandler) {
+        if (ticketHandler == null) {
+            throw new IllegalArgumentException("ticketHandler");
+        }
+
+        this.ticketHandler = ticketHandler;
+    }
 
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> arguments = new ArrayList<String>(Arrays.asList(args));
@@ -69,7 +78,7 @@ public class CommandSupport implements CommandExecutor, TabCompleter {
         if (params.contains(args[0])) {
             if (sender instanceof Player) {
                 Player player = (Player)sender;
-                String subCat = "";
+                String subCat = null;
                 String playerText = "";
 
                 if (args[0].equals("report")) {
@@ -82,7 +91,7 @@ public class CommandSupport implements CommandExecutor, TabCompleter {
                 }
 
                 int ticketId = createSupportTicket(args[0], subCat, playerText, player);
-                player.sendMessage("Support ticket No. " + ticketId + " has been created for you. We'll get to you soon!");
+                player.sendMessage("Support ticket #" + ticketId + " has been created for you. We'll get back to you soon!");
                 return true;
             }
             else {
@@ -95,7 +104,8 @@ public class CommandSupport implements CommandExecutor, TabCompleter {
     }
 
     private int createSupportTicket(String cat, String subCat, String playerText, Player pl) {
-        pl.sendMessage("I'd create support ticket with cat: " + cat + ", subcat: " + subCat + ", playerText: " + playerText);
-        return 1;
+        Ticket newTicket = TicketFactory.createNew(pl, cat, subCat, playerText);
+        newTicket = this.ticketHandler.createTicket(newTicket);
+        return newTicket.getTicketId();
     }
 }
